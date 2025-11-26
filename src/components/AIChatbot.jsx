@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, Maximize2, Minimize2, Sparkles } from 'lucide-react';
 
 const AIChatbot = ({ dashboardData }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Hi! I can answer questions about your sales data. Try asking about revenue, clients, proposals, or any metrics.' }
+    { type: 'bot', text: 'Hi! I\'m your AI Sales Assistant 🚀\n\nI can help you analyze your sales data. Try asking:\n• "Show me revenue summary"\n• "How many proposals do we have?"\n• "Who are our top clients?"\n• "What\'s our pipeline status?"' }
   ]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
@@ -198,11 +200,13 @@ const AIChatbot = ({ dashboardData }) => {
 
     const userMessage = { type: 'user', text: input };
     setMessages(prev => [...prev, userMessage]);
+    setIsTyping(true);
 
     setTimeout(() => {
       const botResponse = { type: 'bot', text: analyzeData(input) };
       setMessages(prev => [...prev, botResponse]);
-    }, 500);
+      setIsTyping(false);
+    }, 800);
 
     setInput('');
   };
@@ -220,73 +224,132 @@ const AIChatbot = ({ dashboardData }) => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg z-50 transition-all hover:scale-110"
+          className="fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full p-4 shadow-2xl z-50 transition-all duration-300 hover:scale-110 animate-pulse"
         >
-          <MessageCircle className="w-6 h-6" />
+          <div className="relative">
+            <MessageCircle className="w-6 h-6" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-bounce"></div>
+          </div>
         </button>
       )}
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-white rounded-lg shadow-2xl z-50 flex flex-col border border-gray-200">
+        <div className={`fixed z-50 bg-white shadow-2xl flex flex-col border border-gray-200 transition-all duration-300 ${
+          isFullscreen 
+            ? 'inset-4 rounded-xl' 
+            : 'bottom-6 right-6 w-96 h-[600px] rounded-lg'
+        }`}>
           {/* Header */}
-          <div className="bg-blue-600 text-white p-4 rounded-t-lg flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Bot className="w-5 h-5" />
-              <span className="font-semibold">Sales Data Assistant</span>
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-t-lg flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Bot className="w-6 h-6" />
+                <Sparkles className="w-3 h-3 absolute -top-1 -right-1 text-yellow-300" />
+              </div>
+              <div>
+                <span className="font-semibold text-lg">AI Sales Assistant</span>
+                <div className="text-xs text-blue-100">Powered by Advanced Analytics</div>
+              </div>
             </div>
-            <button onClick={() => setIsOpen(false)} className="hover:bg-blue-700 rounded p-1">
-              <X className="w-5 h-5" />
-            </button>
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={() => setIsFullscreen(!isFullscreen)}
+                className="hover:bg-white/20 rounded-lg p-2 transition-colors"
+                title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+              >
+                {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
+              </button>
+              <button 
+                onClick={() => setIsOpen(false)} 
+                className="hover:bg-white/20 rounded-lg p-2 transition-colors"
+                title="Close Chat"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-gray-50 to-white">
             {messages.map((msg, idx) => (
-              <div key={idx} className={`flex gap-2 ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div key={idx} className={`flex gap-3 animate-fadeIn ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.type === 'bot' && (
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-5 h-5 text-blue-600" />
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <Bot className="w-6 h-6 text-blue-600" />
                   </div>
                 )}
-                <div className={`max-w-[75%] p-3 rounded-lg ${
+                <div className={`max-w-[80%] p-4 rounded-2xl shadow-sm transition-all hover:shadow-md ${
                   msg.type === 'user' 
-                    ? 'bg-blue-600 text-white rounded-br-none' 
-                    : 'bg-white border border-gray-200 rounded-bl-none'
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-br-md' 
+                    : 'bg-white border border-gray-100 rounded-bl-md'
                 }`}>
-                  <p className="text-sm">{msg.text}</p>
+                  <p className="text-sm leading-relaxed whitespace-pre-line">{msg.text}</p>
                 </div>
                 {msg.type === 'user' && (
-                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                    <User className="w-5 h-5 text-gray-600" />
+                  <div className="w-10 h-10 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <User className="w-6 h-6 text-gray-600" />
                   </div>
                 )}
               </div>
             ))}
+            
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="flex gap-3 justify-start animate-fadeIn">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <Bot className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-md p-4 shadow-sm">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div ref={messagesEndRef} />
           </div>
 
           {/* Input */}
           <div className="p-4 border-t border-gray-200 bg-white rounded-b-lg">
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask about your sales data..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="Ask me anything about your sales data..."
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-all shadow-sm"
+                disabled={isTyping}
               />
               <button
                 onClick={handleSend}
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 transition-colors"
+                disabled={isTyping || !input.trim()}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl px-6 py-3 transition-all duration-200 shadow-sm hover:shadow-md disabled:cursor-not-allowed"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-5 h-5" />
               </button>
+            </div>
+            <div className="mt-2 text-xs text-gray-500 text-center">
+              💡 Try: "revenue summary", "top clients", "pipeline status"
             </div>
           </div>
         </div>
       )}
+      
+      {/* Custom Styles */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+      `}</style>
     </>
   );
 };
