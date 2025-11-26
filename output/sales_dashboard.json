@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "report_name": "Sandesh Team Sales Funnel Dashboard",
+    "generated_at": "2025-11-25T12:53:54.807041",
+    "total_sheets": 4
+  },
+  "sheets": {
+    "proposal_submitted": {
+      "sheet_name": "Proposal Submitted",
+      "total_records": 2,
+      "data": [
+        {
+          "sr_no": 1,
+          "date": "2025-07-04",
+          "pot_id": "20535, 20536",
+          "source": "Direct",
+          "sales_person": "Rutuja Lokhande",
+          "client_name": "Redfox security",
+          "opportunity_name": "SOC -Primary Site (DC)",
+          "mrr": 0.0853335,
+          "acv": 1.024002,
+          "otc": 0.0512001,
+          "tcv": 1.0752021,
+          "sales_stage": "L3",
+          "probability": 0.6,
+          "sales_type": "New",
+          "industry": "Cybersecurity",
+          "region": "Mumbai",
+          "remark": "Proposal submitted, revised proposal sent",
+          "latest_remark": "NO Go"
+        },
+        {
+          "sr_no": 2,
+          "date": "2025-09-18",
+          "pot_id": "17657",
+          "source": "Direct",
+          "sales_person": "Rutuja Lokhande",
+          "client_name": "Shree Mahavir Sahakari Bank Ltd. Jalgaon",
+          "opportunity_name": "Domain Migration",
+          "mrr": 0,
+          "acv": 0.022,
+          "otc": 0.022,
+          "tcv": 0.022,
+          "sales_stage": "L3",
+          "probability": 0.6,
+          "sales_type": "Existing",
+          "industry": "Website",
+          "region": "Mumbai",
+          "remark": "Proposal sent ",
+          "latest_remark": null
+        }
+      ],
+      "summary": {
+        "total_proposals": 2,
+        "total_tcv": 1.0972021,
+        "avg_acv": 0.523001,
+        "avg_probability": 0.6,
+        "by_sales_type": {
+          "New": 1,
+          "Existing": 1
+        },
+        "by_region": {
+          "Mumbai": 2
+        },
+        "by_industry": {
+          "Cybersecurity": 1,
+          "Website": 1
+        },
+        "by_source": {
+          "Direct": 2
+        }
+      }
+    },
+    "demos": {
+      "sheet_name": "Demo",
+      "total_records": 2,
+      "data": [
+        {
+          "sr_no": 1,
+          "sales_person": "Rutuja Lokhande",
+          "client_name": "Innoval Digital Solutions",
+          "contact_no": "9987045460",
+          "email": "nitin.chikhale@ivldsp.com"
+        },
+        {
+          "sr_no": 2,
+          "sales_person": "Rutuja Lokhande",
+          "client_name": "Marven Data Systems",
+          "contact_no": "8095363681",
+          "email": "gvv@mdsinc.in"
+        }
+      ]
+    },
+    "client_direct_visit": {
+      "sheet_name": "Client Direct Visit",
+      "total_records": 4,
+      "data": [
+        {
+          "sr_no": 1,
+          "date": "2025-05-26",
+          "sales_person": "Rutuja Lokhande",
+          "client_name": "NUCFDC",
+          "products_pitched": "DC and DR services for there Sahakar box",
+          "industry": "BFSI",
+          "region": "Mumbai"
+        },
+        {
+          "sr_no": 2,
+          "date": "2025-04-09",
+          "sales_person": "Rutuja Lokhande",
+          "client_name": "Concerto Software Solution",
+          "products_pitched": "Partnership",
+          "industry": "BFSI",
+          "region": "Mumbai"
+        },
+        {
+          "sr_no": 3,
+          "date": "2025-06-18",
+          "sales_person": "Rutuja Lokhande",
+          "client_name": "Nelito Systems",
+          "products_pitched": "DC and DR proposals",
+          "industry": "BFSI",
+          "region": "Mumbai"
+        },
+        {
+          "sr_no": 4,
+          "date": "2025-07-04",
+          "sales_person": "Rutuja Lokhande",
+          "client_name": "Redfox Security",
+          "products_pitched": "SOC proposal",
+          "industry": "BFSI",
+          "region": "Mumbai"
+        }
+      ]
+    },
+    "dc_visit": {
+      "sheet_name": "DC Visit",
+      "total_records": 2,
+      "data": [
+        {
+          "sr_no": 1,
+          "date": "29-04-2025",
+          "sales_person": "Rutuja Lokhande",
+          "account_name": "Nelito Systems",
+          "product_pitched": "DC and DR",
+          "sector": "BFSI",
+          "region": "Mumbai",
+          "contact_person": "Ramesh Dubey",
+          "mobile": "9372297189"
+        },
+        {
+          "sr_no": 2,
+          "date": "2025-06-26",
+          "sales_person": "Rutuja Lokhande",
+          "account_name": "Red Fox Security",
+          "product_pitched": "SOC",
+          "sector": "BFSI",
+          "region": "Mumbai",
+          "contact_person": "Dhruv Nagpal",
+          "mobile": "9820512865"
+        }
+      ]
+    }
+  },
+  "kpis": {
+    "total_proposals": 2,
+    "total_demos_conducted": 2,
+    "total_client_visits": 4,
+    "total_dc_visits": 2,
+    "total_funnel_activities": 10,
+    "revenue_metrics": {
+      "total_tcv": 1.0972021,
+      "avg_acv": 0.52,
+      "avg_deal_probability": 0.6
+    }
+  }
+}
