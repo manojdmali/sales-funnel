@@ -219,61 +219,7 @@ const SalesFunnelDashboard = () => {
           <DataPreview parsedData={parsedExcelData} onAccept={handleAcceptData} onCancel={handleCancelPreview} />
         )}
 
-        {/* Custom Animations */}
-        <style jsx>{`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(10deg); }
-          }
-          @keyframes float-delayed {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(-10deg); }
-          }
-          @keyframes float-slow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-          }
-          @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.8), 0 0 60px rgba(59, 130, 246, 0.5); }
-          }
-          @keyframes gradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-          }
-          @keyframes gradient-x {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-          }
-          @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-          }
-          .animate-float { animation: float 6s ease-in-out infinite; }
-          .animate-float-delayed { animation: float-delayed 8s ease-in-out infinite; }
-          .animate-float-slow { animation: float-slow 10s ease-in-out infinite; }
-          .animate-slideUp { animation: slideUp 0.8s ease-out; }
-          .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
-          .animate-glow { animation: glow 3s ease-in-out infinite; }
-          .animate-gradient { animation: gradient 3s ease infinite; background-size: 200% 200%; }
-          .animate-gradient-x { animation: gradient-x 3s ease infinite; background-size: 200% 200%; }
-          .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
-          .animation-delay-200 { animation-delay: 0.2s; }
-          .animation-delay-400 { animation-delay: 0.4s; }
-          .animation-delay-600 { animation-delay: 0.6s; }
-          .animation-delay-800 { animation-delay: 0.8s; }
-          .animation-delay-1000 { animation-delay: 1s; }
-          .animation-delay-1200 { animation-delay: 1.2s; }
-          .animation-delay-1400 { animation-delay: 1.4s; }
-        `}</style>
+
       </div>
     );
   }
@@ -387,45 +333,117 @@ const SalesFunnelDashboard = () => {
 
   return (
     <>
-      <div className="min-h-screen p-4 sm:p-8 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-        <div className="max-w-7xl mx-auto">
-          {/* Compact Header */}
+      <div className="min-h-screen p-4 sm:p-8 bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-400/10 to-purple-600/10 rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
+          <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-400/10 to-pink-600/10 rounded-full mix-blend-multiply filter blur-3xl animate-float-delayed"></div>
+          <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-gradient-to-r from-indigo-400/10 to-cyan-600/10 rounded-full mix-blend-multiply filter blur-3xl animate-float-slow"></div>
+          
+          {/* Grid Pattern */}
+          <div className="absolute inset-0 opacity-20" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.02\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1\'%3E%3C/circle%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"}}></div>
+          
+          {/* Floating particles */}
+          <div className="absolute top-20 left-20 w-2 h-2 bg-white/20 rounded-full animate-ping"></div>
+          <div className="absolute top-40 right-32 w-1 h-1 bg-purple-300/30 rounded-full animate-pulse"></div>
+          <div className="absolute bottom-32 left-1/3 w-1.5 h-1.5 bg-blue-300/25 rounded-full animate-bounce"></div>
+          <div className="absolute top-1/3 right-20 w-1 h-1 bg-pink-300/40 rounded-full animate-ping"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Premium Enhanced Header */}
           <div className="mb-6 animate-slideIn">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-center sm:text-left">
-                <h1 className="text-4xl sm:text-5xl font-black text-gray-900 mb-2 tracking-tight">
-                  Sales <span className="text-indigo-700">Funnel</span>
-                </h1>
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-gray-700 text-sm">
-                  <span className="px-3 py-1 bg-white/80 backdrop-blur-md rounded-full border border-indigo-200 font-medium shadow-sm">{d.metadata.report_name}</span>
-                  <span className="text-gray-400">•</span>
-                  <span className="font-medium">Updated: {new Date(d.metadata.generated_at).toLocaleDateString()}</span>
-                  {dataSource === 'uploaded' && (
-                    <>
-                      <span className="text-gray-400">•</span>
-                      <div className="inline-flex items-center gap-1 px-2 py-1 bg-green-50 border border-green-300 rounded-full text-green-700 text-xs font-bold">
-                        <Upload className="w-3 h-3" />
-                        <span>{d.metadata.filename || 'Excel'}</span>
+            <div className="relative bg-gradient-to-r from-white/95 via-white/90 to-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 p-6 overflow-hidden">
+              {/* Header Background Pattern */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 opacity-50"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-2xl"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/10 to-cyan-400/10 rounded-full blur-xl"></div>
+              
+              <div className="relative z-10">
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                  <div className="flex-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                      <div className="relative">
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-purple-800 to-slate-800 tracking-tight leading-tight">
+                          Sales <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 animate-gradient">Funnel</span>
+                        </h1>
+                        <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-pulse"></div>
+                        <p className="text-sm text-slate-600 font-semibold mt-2 flex items-center gap-2">
+                          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                          Advanced Analytics Dashboard
+                        </p>
                       </div>
-                    </>
-                  )}
+                      
+                      <div className="flex flex-wrap items-center gap-3 text-xs">
+                        <div className="group px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 border border-indigo-300 rounded-full text-indigo-800 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                          <span className="flex items-center gap-2">
+                            📊 <span>{d.metadata.report_name}</span>
+                          </span>
+                        </div>
+                        <div className="px-4 py-2 bg-gradient-to-r from-slate-100 to-gray-100 border border-slate-300 rounded-full text-slate-700 font-semibold shadow-md">
+                          🕒 {new Date(d.metadata.generated_at).toLocaleDateString()}
+                        </div>
+                        {dataSource === 'uploaded' && (
+                          <div className="px-4 py-2 bg-gradient-to-r from-emerald-100 to-green-100 border border-emerald-300 rounded-full text-emerald-800 font-bold shadow-lg animate-pulse">
+                            <Upload className="w-3 h-3 inline mr-2" />
+                            {d.metadata.filename || 'Excel Data'}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      onClick={() => setShowUploadModal(true)}
+                      className="group relative px-6 py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-2xl hover:shadow-2xl hover:shadow-purple-500/50 transform hover:-translate-y-1 hover:scale-105 transition-all duration-500 font-bold text-sm flex items-center gap-3 overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-x"></div>
+                      <Upload className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300 relative z-10" />
+                      <span className="relative z-10 hidden sm:inline">Upload Excel</span>
+                      <span className="relative z-10 sm:hidden">Upload</span>
+                    </button>
+                    <button
+                      onClick={() => setShowDataManagement(true)}
+                      className="group px-6 py-3 bg-white/80 backdrop-blur-sm text-blue-700 rounded-2xl hover:shadow-xl border-2 border-blue-200 transform hover:-translate-y-1 transition-all duration-300 font-bold text-sm flex items-center gap-3 hover:bg-blue-50"
+                    >
+                      <Database className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                      <span className="hidden sm:inline">Manage Data</span>
+                      <span className="sm:hidden">Data</span>
+                      <span className="px-2 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full text-xs font-black shadow-lg">{datasets.length}</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowUploadModal(true)}
-                  className="group px-4 py-2.5 bg-white text-indigo-600 rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 font-semibold text-sm flex items-center gap-2 border border-indigo-200"
-                >
-                  <Upload className="w-4 h-4" />
-                  Upload
-                </button>
-                <button
-                  onClick={() => setShowDataManagement(true)}
-                  className="group px-4 py-2.5 bg-white text-blue-600 rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 font-semibold text-sm flex items-center gap-2 border border-blue-200"
-                >
-                  <Database className="w-4 h-4" />
-                  Data ({datasets.length})
-                </button>
+                
+                {/* Enhanced Quick Stats Bar */}
+                <div className="mt-6 pt-6 border-t border-gradient-to-r from-transparent via-slate-200 to-transparent">
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
+                    <div className="group text-center p-3 bg-gradient-to-br from-indigo-50 to-blue-100 rounded-xl border border-indigo-200 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                      <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">{filteredProposals.length}</div>
+                      <div className="text-xs text-indigo-600 font-bold mt-1">Proposals</div>
+                    </div>
+                    <div className="group text-center p-3 bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl border border-purple-200 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                      <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-violet-600">{filteredVisits.length}</div>
+                      <div className="text-xs text-purple-600 font-bold mt-1">Visits</div>
+                    </div>
+                    <div className="group text-center p-3 bg-gradient-to-br from-pink-50 to-rose-100 rounded-xl border border-pink-200 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                      <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600">{filteredDemos.length}</div>
+                      <div className="text-xs text-pink-600 font-bold mt-1">Demos</div>
+                    </div>
+                    <div className="group text-center p-3 bg-gradient-to-br from-amber-50 to-yellow-100 rounded-xl border border-amber-200 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                      <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-yellow-600">₹{totalTCV.toFixed(1)}</div>
+                      <div className="text-xs text-amber-600 font-bold mt-1">TCV (Cr)</div>
+                    </div>
+                    <div className="group text-center p-3 bg-gradient-to-br from-emerald-50 to-green-100 rounded-xl border border-emerald-200 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                      <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-600">{avgProbability.toFixed(0)}%</div>
+                      <div className="text-xs text-emerald-600 font-bold mt-1">Avg Prob</div>
+                    </div>
+                    <div className="group text-center p-3 bg-gradient-to-br from-cyan-50 to-blue-100 rounded-xl border border-cyan-200 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                      <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">{filteredDCVisits.length}</div>
+                      <div className="text-xs text-cyan-600 font-bold mt-1">DC Visits</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -438,6 +456,130 @@ const SalesFunnelDashboard = () => {
             searchTerm={searchTerm}
             availableFilters={availableFilters}
           />
+
+          {/* Highlighted Sales Pipeline Funnel */}
+          <div className="mb-6 relative">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur opacity-30 animate-pulse"></div>
+            <div className="relative bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-3xl shadow-2xl border-2 border-white/50 p-8 overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-400/10 to-cyan-400/10 rounded-full blur-2xl"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-4 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-lg">
+                      <Target className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+                        Sales Pipeline Funnel
+                      </h2>
+                      <p className="text-sm text-gray-600 font-semibold mt-1">Track your complete sales journey from leads to closed deals</p>
+                    </div>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-yellow-400 rounded-full">
+                    <span className="text-2xl animate-bounce">⭐</span>
+                    <span className="text-sm font-black text-yellow-800">KEY METRIC</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Funnel Visualization */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50">
+                    <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-purple-600" />
+                      Pipeline Stages
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-bold text-blue-700">👥 Client Visits</span>
+                          <span className="text-2xl font-black text-blue-600">{filteredVisits.length}</span>
+                        </div>
+                        <div className="h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg flex items-center justify-center text-white font-bold" style={{width: '100%'}}>
+                          100%
+                        </div>
+                      </div>
+                      
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-bold text-purple-700">🎯 Demos Conducted</span>
+                          <span className="text-2xl font-black text-purple-600">{filteredDemos.length}</span>
+                        </div>
+                        <div className="h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow-lg flex items-center justify-center text-white font-bold" style={{width: filteredVisits.length > 0 ? `${(filteredDemos.length / filteredVisits.length * 100)}%` : '0%'}}>
+                          {filteredVisits.length > 0 ? `${((filteredDemos.length / filteredVisits.length) * 100).toFixed(0)}%` : '0%'}
+                        </div>
+                      </div>
+                      
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-bold text-pink-700">📋 Proposals Submitted</span>
+                          <span className="text-2xl font-black text-pink-600">{filteredProposals.length}</span>
+                        </div>
+                        <div className="h-12 bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg shadow-lg flex items-center justify-center text-white font-bold" style={{width: filteredVisits.length > 0 ? `${(filteredProposals.length / filteredVisits.length * 100)}%` : '0%'}}>
+                          {filteredVisits.length > 0 ? `${((filteredProposals.length / filteredVisits.length) * 100).toFixed(0)}%` : '0%'}
+                        </div>
+                      </div>
+                      
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-bold text-green-700">✅ Closed Deals</span>
+                          <span className="text-2xl font-black text-green-600">{filteredDCVisits.length}</span>
+                        </div>
+                        <div className="h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg shadow-lg flex items-center justify-center text-white font-bold" style={{width: filteredVisits.length > 0 ? `${(filteredDCVisits.length / filteredVisits.length * 100)}%` : '0%'}}>
+                          {filteredVisits.length > 0 ? `${((filteredDCVisits.length / filteredVisits.length) * 100).toFixed(0)}%` : '0%'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Key Metrics */}
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 shadow-xl text-white">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-semibold opacity-90">Total Pipeline Value</p>
+                          <p className="text-4xl font-black mt-2">₹{totalTCV.toFixed(2)} Cr</p>
+                        </div>
+                        <IndianRupee className="w-16 h-16 opacity-20" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-purple-200">
+                        <p className="text-xs font-semibold text-purple-600">Conversion Rate</p>
+                        <p className="text-2xl font-black text-purple-700 mt-1">
+                          {filteredVisits.length > 0 ? `${((filteredProposals.length / filteredVisits.length) * 100).toFixed(1)}%` : '0%'}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">Visit → Proposal</p>
+                      </div>
+                      
+                      <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-pink-200">
+                        <p className="text-xs font-semibold text-pink-600">Avg Deal Size</p>
+                        <p className="text-2xl font-black text-pink-700 mt-1">
+                          ₹{filteredProposals.length > 0 ? (totalTCV / filteredProposals.length).toFixed(2) : '0'}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">Per Proposal</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 shadow-xl text-white">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-semibold opacity-90">Win Probability</p>
+                          <p className="text-4xl font-black mt-2">{avgProbability.toFixed(0)}%</p>
+                        </div>
+                        <TrendingUp className="w-16 h-16 opacity-20" />
+                      </div>
+                      <div className="mt-4 bg-white/20 rounded-full h-2 overflow-hidden">
+                        <div className="h-2 bg-white rounded-full transition-all duration-1000" style={{width: `${avgProbability}%`}}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Compact KPI Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -567,42 +709,131 @@ const SalesFunnelDashboard = () => {
             </ChartCard>
 
             <ChartCard title="💊 Deal Health Metrics">
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm font-semibold text-gray-700">Average Probability</span>
-                    <span className="text-sm font-bold text-purple-600">{avgProbability.toFixed(1)}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                    <div className="h-3 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 transition-all duration-1000 shadow-sm" style={{ width: `${avgProbability}%` }}></div>
+              <div className="relative">
+                {/* Radial Progress Circle */}
+                <div className="flex items-center justify-center mb-6">
+                  <div className="relative w-48 h-48">
+                    <svg className="transform -rotate-90 w-48 h-48">
+                      <circle
+                        cx="96"
+                        cy="96"
+                        r="80"
+                        stroke="#e5e7eb"
+                        strokeWidth="16"
+                        fill="none"
+                      />
+                      <circle
+                        cx="96"
+                        cy="96"
+                        r="80"
+                        stroke="url(#healthGradient)"
+                        strokeWidth="16"
+                        fill="none"
+                        strokeDasharray={`${2 * Math.PI * 80}`}
+                        strokeDashoffset={`${2 * Math.PI * 80 * (1 - avgProbability / 100)}`}
+                        strokeLinecap="round"
+                        className="transition-all duration-1000"
+                      />
+                      <defs>
+                        <linearGradient id="healthGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#8b5cf6" />
+                          <stop offset="50%" stopColor="#3b82f6" />
+                          <stop offset="100%" stopColor="#06b6d4" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">{avgProbability.toFixed(0)}%</span>
+                      <span className="text-xs font-semibold text-gray-500 mt-1">Win Rate</span>
+                    </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-100">
-                  <div className="text-center p-3 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200">
-                    <p className="text-xs text-purple-600 font-semibold">Total TCV</p>
-                    <p className="text-lg font-black text-purple-700">₹{totalTCV.toFixed(2)} Cr</p>
+
+                {/* Metric Cards */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="relative overflow-hidden bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 text-white shadow-lg group hover:scale-105 transition-transform">
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -mr-8 -mt-8"></div>
+                    <p className="text-xs font-semibold opacity-90 relative z-10">Total TCV</p>
+                    <p className="text-xl font-black mt-1 relative z-10">₹{totalTCV.toFixed(1)}</p>
+                    <p className="text-xs opacity-75 relative z-10">Crores</p>
                   </div>
-                  <div className="text-center p-3 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200">
-                    <p className="text-xs text-blue-600 font-semibold">Active Deals</p>
-                    <p className="text-lg font-black text-blue-700">{filteredProposals.length}</p>
+                  
+                  <div className="relative overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white shadow-lg group hover:scale-105 transition-transform">
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -mr-8 -mt-8"></div>
+                    <p className="text-xs font-semibold opacity-90 relative z-10">Active</p>
+                    <p className="text-xl font-black mt-1 relative z-10">{filteredProposals.length}</p>
+                    <p className="text-xs opacity-75 relative z-10">Deals</p>
+                  </div>
+                  
+                  <div className="relative overflow-hidden bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl p-4 text-white shadow-lg group hover:scale-105 transition-transform">
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -mr-8 -mt-8"></div>
+                    <p className="text-xs font-semibold opacity-90 relative z-10">Avg Size</p>
+                    <p className="text-xl font-black mt-1 relative z-10">₹{filteredProposals.length > 0 ? (totalTCV / filteredProposals.length).toFixed(1) : '0'}</p>
+                    <p className="text-xs opacity-75 relative z-10">Cr/Deal</p>
+                  </div>
+                </div>
+
+                {/* Health Status Bar */}
+                <div className="mt-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm font-bold text-green-700">Pipeline Health:</span>
+                    </div>
+                    <span className="text-sm font-black text-green-600">
+                      {avgProbability >= 70 ? 'Excellent' : avgProbability >= 50 ? 'Good' : avgProbability >= 30 ? 'Fair' : 'Needs Attention'}
+                    </span>
                   </div>
                 </div>
               </div>
             </ChartCard>
           </div>
 
-          {/* Data Tables with Pagination */}
-          <div className="space-y-6">
-            <EnhancedTable title={`Proposals Submitted (${filteredProposals.length} total)`} data={filteredProposals} columns={proposalColumns} defaultSort={{ key: 'date', direction: 'desc' }} onAddData={() => setShowAddForm('proposal_submitted')} />
-            <EnhancedTable title={`Client Direct Visits (${filteredVisits.length} total)`} data={filteredVisits} columns={visitColumns} defaultSort={{ key: 'date', direction: 'desc' }} onAddData={() => setShowAddForm('client_direct_visit')} />
-            <EnhancedTable title={`Demos Conducted (${filteredDemos.length} total)`} data={filteredDemos} columns={demoColumns} onAddData={() => setShowAddForm('demos')} />
-            <EnhancedTable title={`DC Visits (${filteredDCVisits.length} total)`} data={filteredDCVisits} columns={dcVisitColumns} defaultSort={{ key: 'date', direction: 'desc' }} onAddData={() => setShowAddForm('dc_visit')} />
+          {/* Quick Action Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="group bg-gradient-to-br from-blue-50 to-indigo-100 border border-blue-200 rounded-xl p-4 hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <div className="flex items-center justify-between mb-2">
+                <Target className="w-6 h-6 text-blue-600" />
+                <span className="text-xs font-semibold text-blue-600 bg-blue-200 px-2 py-1 rounded-full">{filteredProposals.length}</span>
+              </div>
+              <h3 className="font-bold text-gray-800 text-sm">View Proposals</h3>
+              <p className="text-xs text-gray-600 mt-1">Detailed proposal tracking</p>
+            </div>
+            
+            <div className="group bg-gradient-to-br from-purple-50 to-violet-100 border border-purple-200 rounded-xl p-4 hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <div className="flex items-center justify-between mb-2">
+                <Users className="w-6 h-6 text-purple-600" />
+                <span className="text-xs font-semibold text-purple-600 bg-purple-200 px-2 py-1 rounded-full">{filteredVisits.length}</span>
+              </div>
+              <h3 className="font-bold text-gray-800 text-sm">Client Visits</h3>
+              <p className="text-xs text-gray-600 mt-1">Visit history & details</p>
+            </div>
+            
+            <div className="group bg-gradient-to-br from-pink-50 to-rose-100 border border-pink-200 rounded-xl p-4 hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <div className="flex items-center justify-between mb-2">
+                <TrendingUp className="w-6 h-6 text-pink-600" />
+                <span className="text-xs font-semibold text-pink-600 bg-pink-200 px-2 py-1 rounded-full">{filteredDemos.length}</span>
+              </div>
+              <h3 className="font-bold text-gray-800 text-sm">Demo Sessions</h3>
+              <p className="text-xs text-gray-600 mt-1">Demo performance data</p>
+            </div>
+            
+            <div className="group bg-gradient-to-br from-amber-50 to-yellow-100 border border-amber-200 rounded-xl p-4 hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <div className="flex items-center justify-between mb-2">
+                <IndianRupee className="w-6 h-6 text-amber-600" />
+                <span className="text-xs font-semibold text-amber-600 bg-amber-200 px-2 py-1 rounded-full">₹{totalTCV.toFixed(1)}Cr</span>
+              </div>
+              <h3 className="font-bold text-gray-800 text-sm">Revenue Pipeline</h3>
+              <p className="text-xs text-gray-600 mt-1">Total contract value</p>
+            </div>
           </div>
 
-          {/* Footer */}
-          <div className="glass rounded-xl shadow-xl p-6 mt-8 text-center border-2 border-white/20">
-            <p className="text-gray-700 font-medium">
-              Showing {filteredProposals.length + filteredVisits.length + filteredDemos.length + filteredDCVisits.length} of {d.kpis.total_funnel_activities} total activities
+          {/* Compact Footer */}
+          <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 mt-6 text-center border border-gray-200">
+            <p className="text-sm text-gray-600 font-medium">
+              📊 Displaying {filteredProposals.length + filteredVisits.length + filteredDemos.length + filteredDCVisits.length} of {d.kpis.total_funnel_activities} total activities
+              <span className="mx-2">•</span>
+              <span className="text-indigo-600 font-semibold">Real-time Analytics Dashboard</span>
             </p>
           </div>
         </div>
@@ -629,6 +860,8 @@ const SalesFunnelDashboard = () => {
           onClose={() => setShowDataManagement(false)}
         />
       )}
+      
+
     </>
   );
 };

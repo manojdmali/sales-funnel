@@ -37,7 +37,7 @@ const AdvancedDashboard = () => {
         const monthlyData = {};
         Object.values(d.sheets || {}).forEach(sheet => {
             (sheet.data || []).forEach(item => {
-                if (item.date) {
+                if (item && item.date) {
                     const month = new Date(item.date).toLocaleString('default', { month: 'short', year: 'numeric' });
                     if (!monthlyData[month]) {
                         monthlyData[month] = { month, proposals: 0, visits: 0, demos: 0, events: 0, revenue: 0 };
@@ -55,7 +55,7 @@ const AdvancedDashboard = () => {
         const regionData = {};
         Object.values(d.sheets || {}).forEach(sheet => {
             (sheet.data || []).forEach(item => {
-                if (item.region) {
+                if (item && item.region) {
                     regionData[item.region] = (regionData[item.region] || 0) + 1;
                 }
             });
@@ -65,7 +65,7 @@ const AdvancedDashboard = () => {
         const salesPersonData = {};
         Object.values(d.sheets || {}).forEach(sheet => {
             (sheet.data || []).forEach(item => {
-                if (item.sales_person) {
+                if (item && item.sales_person) {
                     if (!salesPersonData[item.sales_person]) {
                         salesPersonData[item.sales_person] = {
                             name: item.sales_person,
@@ -88,7 +88,7 @@ const AdvancedDashboard = () => {
         // Industry breakdown
         const industryData = {};
         (d.sheets?.proposal_submitted?.data || []).forEach(item => {
-            if (item.industry) {
+            if (item && item.industry) {
                 if (!industryData[item.industry]) {
                     industryData[item.industry] = { name: item.industry, value: 0, revenue: 0 };
                 }
@@ -103,6 +103,7 @@ const AdvancedDashboard = () => {
         
         // Process actual data
         allProposals.forEach(item => {
+            if (!item) return;
             const stage = item.sales_stage || item.sales_stages;
             if (stage) {
                 stageData[stage] = (stageData[stage] || 0) + 1;
@@ -134,6 +135,7 @@ const AdvancedDashboard = () => {
         // Probability distribution
         const probabilityBuckets = { '0-25%': 0, '26-50%': 0, '51-75%': 0, '76-100%': 0 };
         (d.sheets?.proposal_submitted?.data || []).forEach(item => {
+            if (!item) return;
             const prob = item.probability || 0;
             if (prob <= 25) probabilityBuckets['0-25%']++;
             else if (prob <= 50) probabilityBuckets['26-50%']++;
@@ -415,19 +417,80 @@ const AdvancedDashboard = () => {
                         </ResponsiveContainer>
                     </ChartCard>
 
-                    {/* Sales Person Performance Radar */}
+                    {/* Premium Top Performer Metrics */}
                     <ChartCard title="Top Performer Metrics" icon={Award} fullscreenId="radar" className="break-inside-avoid" gradient={2}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <RadarChart data={chartData.salesPeople.slice(0, 6)}>
-                                <PolarGrid stroke="#e5e7eb" />
-                                <PolarAngleAxis dataKey="name" stroke="#6b7280" style={{ fontSize: '11px' }} />
-                                <PolarRadiusAxis stroke="#6b7280" />
-                                <Radar name="Activities" dataKey="activities" stroke="#6366f1" fill="#6366f1" fillOpacity={0.6} />
-                                <Radar name="Proposals" dataKey="proposals" stroke="#ec4899" fill="#ec4899" fillOpacity={0.6} />
-                                <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', border: '2px solid #e5e7eb', borderRadius: '16px' }} />
-                                <Legend />
-                            </RadarChart>
-                        </ResponsiveContainer>
+                        <div className="h-full flex flex-col">
+                            {/* Top 3 Performers Podium */}
+                            <div className="grid grid-cols-3 gap-3 mb-4">
+                                {chartData.salesPeople.slice(0, 3).map((person, index) => {
+                                    const medals = ['🥇', '🥈', '🥉'];
+                                    const gradients = [
+                                        'from-yellow-400 to-orange-500',
+                                        'from-gray-300 to-gray-400',
+                                        'from-amber-600 to-amber-700'
+                                    ];
+                                    return (
+                                        <div key={index} className={`relative bg-gradient-to-br ${gradients[index]} rounded-2xl p-4 text-white shadow-xl transform hover:scale-105 transition-all duration-300`}>
+                                            <div className="absolute top-2 right-2 text-3xl">{medals[index]}</div>
+                                            <div className="mt-6">
+                                                <p className="text-xs font-semibold opacity-90">Rank #{index + 1}</p>
+                                                <p className="text-sm font-black mt-1 truncate">{person.name}</p>
+                                                <div className="mt-3 space-y-1">
+                                                    <div className="flex justify-between text-xs">
+                                                        <span className="opacity-80">Activities</span>
+                                                        <span className="font-bold">{person.activities}</span>
+                                                    </div>
+                                                    <div className="flex justify-between text-xs">
+                                                        <span className="opacity-80">Proposals</span>
+                                                        <span className="font-bold">{person.proposals}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Horizontal Performance Bars */}
+                            <div className="flex-1 space-y-3 overflow-y-auto">
+                                {chartData.salesPeople.slice(0, 8).map((person, index) => {
+                                    const maxActivities = Math.max(...chartData.salesPeople.map(p => p.activities));
+                                    const percentage = (person.activities / maxActivities) * 100;
+                                    const color = COLORS[index % COLORS.length];
+                                    return (
+                                        <div key={index} className="group">
+                                            <div className="flex items-center justify-between mb-1">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-black text-xs" style={{ backgroundColor: color }}>
+                                                        {index + 1}
+                                                    </div>
+                                                    <span className="text-sm font-bold text-gray-800">{person.name}</span>
+                                                </div>
+                                                <div className="flex items-center gap-3 text-xs font-semibold">
+                                                    <span className="text-purple-600">{person.proposals} 📋</span>
+                                                    <span className="text-blue-600">{person.visits} 👥</span>
+                                                    <span className="text-pink-600">{person.demos} 🎯</span>
+                                                </div>
+                                            </div>
+                                            <div className="relative h-8 bg-gray-100 rounded-xl overflow-hidden shadow-inner">
+                                                <div 
+                                                    className="absolute inset-y-0 left-0 rounded-xl transition-all duration-1000 ease-out group-hover:opacity-90"
+                                                    style={{ 
+                                                        width: `${percentage}%`,
+                                                        background: `linear-gradient(90deg, ${color} 0%, ${color}dd 100%)`
+                                                    }}
+                                                >
+                                                    <div className="absolute inset-0 bg-white/20"></div>
+                                                </div>
+                                                <div className="absolute inset-0 flex items-center justify-end pr-3">
+                                                    <span className="text-xs font-black text-gray-700">{person.activities} activities</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </ChartCard>
 
                     {/* Sales Stage Funnel */}
@@ -567,21 +630,183 @@ const AdvancedDashboard = () => {
                         </ResponsiveContainer>
                     </ChartCard>
 
-                    {/* Industry Revenue Treemap */}
+                    {/* Premium Industry Revenue Map */}
                     <ChartCard title="Industry Revenue Map" icon={ShoppingBag} fullscreenId="treemap" className="break-inside-avoid" gradient={3}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <Treemap
-                                data={chartData.industries}
-                                dataKey="revenue"
-                                aspectRatio={4 / 3}
-                                stroke="#fff"
-                                fill="#6366f1"
-                            >
-                                {chartData.industries.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                ))}
-                            </Treemap>
-                        </ResponsiveContainer>
+                        <div className="h-full flex flex-col">
+                            {/* Animated Summary Stats */}
+                            <div className="grid grid-cols-3 gap-3 mb-4">
+                                <div className="relative overflow-hidden bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-4 shadow-xl transform hover:scale-105 transition-all duration-300 group">
+                                    <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500"></div>
+                                    <div className="relative z-10">
+                                        <p className="text-xs font-bold text-white/80 mb-1">Total Industries</p>
+                                        <p className="text-3xl font-black text-white">{chartData.industries.length}</p>
+                                        <div className="mt-2 flex items-center gap-1 text-white/70 text-xs">
+                                            <TrendingUp className="w-3 h-3" />
+                                            <span>Active Sectors</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="relative overflow-hidden bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl p-4 shadow-xl transform hover:scale-105 transition-all duration-300 group">
+                                    <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500"></div>
+                                    <div className="relative z-10">
+                                        <p className="text-xs font-bold text-white/80 mb-1">Total Revenue</p>
+                                        <p className="text-3xl font-black text-white">₹{chartData.industries.reduce((sum, i) => sum + i.revenue, 0).toFixed(1)}</p>
+                                        <div className="mt-2 flex items-center gap-1 text-white/70 text-xs">
+                                            <IndianRupee className="w-3 h-3" />
+                                            <span>Crores</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="relative overflow-hidden bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl p-4 shadow-xl transform hover:scale-105 transition-all duration-300 group">
+                                    <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500"></div>
+                                    <div className="relative z-10">
+                                        <p className="text-xs font-bold text-white/80 mb-1">Top Performer</p>
+                                        <p className="text-xl font-black text-white truncate">{chartData.industries.length > 0 ? chartData.industries.sort((a, b) => b.revenue - a.revenue)[0].name : 'N/A'}</p>
+                                        <div className="mt-2 flex items-center gap-1 text-white/70 text-xs">
+                                            <Award className="w-3 h-3" />
+                                            <span>₹{chartData.industries.length > 0 ? chartData.industries.sort((a, b) => b.revenue - a.revenue)[0].revenue.toFixed(1) : '0'}Cr</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Premium 3D Treemap */}
+                            <div className="flex-1 relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 shadow-inner">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <Treemap
+                                        data={chartData.industries}
+                                        dataKey="revenue"
+                                        aspectRatio={4 / 3}
+                                        stroke="#fff"
+                                        strokeWidth={4}
+                                        fill="#6366f1"
+                                        animationDuration={800}
+                                        content={({ x, y, width, height, index, name, value }) => {
+                                            const color = COLORS[index % COLORS.length];
+                                            const percentage = ((value / chartData.industries.reduce((sum, i) => sum + i.revenue, 0)) * 100).toFixed(1);
+                                            return (
+                                                <g className="cursor-pointer hover:opacity-90 transition-opacity">
+                                                    <defs>
+                                                        <linearGradient id={`gradient-${index}`} x1="0" y1="0" x2="1" y2="1">
+                                                            <stop offset="0%" stopColor={color} stopOpacity={1} />
+                                                            <stop offset="100%" stopColor={color} stopOpacity={0.7} />
+                                                        </linearGradient>
+                                                        <filter id={`shadow-${index}`}>
+                                                            <feDropShadow dx="0" dy="4" stdDeviation="3" floodOpacity="0.3" />
+                                                        </filter>
+                                                    </defs>
+                                                    <rect
+                                                        x={x}
+                                                        y={y}
+                                                        width={width}
+                                                        height={height}
+                                                        fill={`url(#gradient-${index})`}
+                                                        stroke="#fff"
+                                                        strokeWidth={4}
+                                                        rx={12}
+                                                        filter={`url(#shadow-${index})`}
+                                                    />
+                                                    {/* Inner highlight for 3D effect */}
+                                                    <rect
+                                                        x={x + 4}
+                                                        y={y + 4}
+                                                        width={width - 8}
+                                                        height={height / 3}
+                                                        fill="#fff"
+                                                        opacity={0.2}
+                                                        rx={8}
+                                                    />
+                                                    {width > 100 && height > 70 && (
+                                                        <>
+                                                            <text
+                                                                x={x + width / 2}
+                                                                y={y + height / 2 - 20}
+                                                                textAnchor="middle"
+                                                                fill="#fff"
+                                                                fontSize={16}
+                                                                fontWeight="900"
+                                                                style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
+                                                            >
+                                                                {name}
+                                                            </text>
+                                                            <text
+                                                                x={x + width / 2}
+                                                                y={y + height / 2 + 5}
+                                                                textAnchor="middle"
+                                                                fill="#fff"
+                                                                fontSize={22}
+                                                                fontWeight="900"
+                                                                style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
+                                                            >
+                                                                ₹{value.toFixed(2)}
+                                                            </text>
+                                                            <text
+                                                                x={x + width / 2}
+                                                                y={y + height / 2 + 25}
+                                                                textAnchor="middle"
+                                                                fill="#fff"
+                                                                fontSize={12}
+                                                                fontWeight="600"
+                                                                opacity={0.9}
+                                                            >
+                                                                {percentage}% of total
+                                                            </text>
+                                                        </>
+                                                    )}
+                                                    {width > 60 && width <= 100 && height > 50 && (
+                                                        <>
+                                                            <text
+                                                                x={x + width / 2}
+                                                                y={y + height / 2 - 5}
+                                                                textAnchor="middle"
+                                                                fill="#fff"
+                                                                fontSize={11}
+                                                                fontWeight="bold"
+                                                            >
+                                                                {name.substring(0, 10)}
+                                                            </text>
+                                                            <text
+                                                                x={x + width / 2}
+                                                                y={y + height / 2 + 10}
+                                                                textAnchor="middle"
+                                                                fill="#fff"
+                                                                fontSize={14}
+                                                                fontWeight="900"
+                                                            >
+                                                                ₹{value.toFixed(1)}
+                                                            </text>
+                                                        </>
+                                                    )}
+                                                </g>
+                                            );
+                                        }}
+                                    />
+                                </ResponsiveContainer>
+                            </div>
+
+                            {/* Enhanced Legend with Stats */}
+                            <div className="mt-4 space-y-2">
+                                <div className="flex items-center justify-between text-xs font-semibold text-gray-600 mb-2">
+                                    <span>Industry Breakdown</span>
+                                    <span>Revenue Share</span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {chartData.industries.slice(0, 6).map((industry, index) => {
+                                        const totalRevenue = chartData.industries.reduce((sum, i) => sum + i.revenue, 0);
+                                        const percentage = ((industry.revenue / totalRevenue) * 100).toFixed(1);
+                                        return (
+                                            <div key={index} className="flex items-center justify-between px-3 py-2 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-4 h-4 rounded-lg shadow-sm" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
+                                                    <span className="text-xs font-bold text-gray-700 truncate">{industry.name}</span>
+                                                </div>
+                                                <span className="text-xs font-black text-gray-900">{percentage}%</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
                     </ChartCard>
                 </div>
             </div>

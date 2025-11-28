@@ -127,36 +127,36 @@ const EnhancedTable = ({
             <div className="overflow-x-auto">
                 <table className="w-full">
                     <thead>
-                        <tr className="bg-gray-50/50 border-b border-gray-100">
+                        <tr className="bg-gradient-to-r from-purple-600 to-indigo-600">
                             {columns.map(column => (
                                 <th
                                     key={column.key}
                                     onClick={() => column.sortable !== false && handleSort(column.key)}
-                                    className={`px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider ${column.sortable !== false ? 'cursor-pointer hover:bg-gray-100/50 transition-colors group' : ''
+                                    className={`px-4 py-3 text-left text-xs font-bold text-white uppercase tracking-wider ${column.sortable !== false ? 'cursor-pointer hover:bg-white/10 transition-colors group' : ''
                                         }`}
                                 >
                                     <div className="flex items-center gap-2">
                                         {column.label}
-                                        {column.sortable !== false && getSortIcon(column.key)}
+                                        {column.sortable !== false && <ArrowUpDown className="w-3 h-3 text-white/70" />}
                                     </div>
                                 </th>
                             ))}
                             {(onEdit || onDelete) && (
-                                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                <th className="px-4 py-3 text-right text-xs font-bold text-white uppercase tracking-wider">
                                     Actions
                                 </th>
                             )}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-gray-200 bg-white">
                         {paginatedData.length > 0 ? (
                             paginatedData.map((row, idx) => (
                                 <tr
                                     key={idx}
-                                    className="hover:bg-purple-50/30 transition-colors duration-150 group"
+                                    className="hover:bg-gray-50 transition-colors duration-150"
                                 >
                                     {columns.map(column => (
-                                        <td key={`${idx}-${column.key}`} className="px-6 py-4 text-sm text-gray-700 font-medium group-hover:text-gray-900">
+                                        <td key={`${idx}-${column.key}`} className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap">
                                             {column.render
                                                 ? column.render(row[column.key], row)
                                                 : (row[column.key] !== null && row[column.key] !== undefined
@@ -172,8 +172,8 @@ const EnhancedTable = ({
                                                     <button
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            const originalIndex = data.indexOf(row);
-                                                            onEdit(row, originalIndex);
+                                                            const dataIndex = startIndex + idx;
+                                                            onEdit(row, dataIndex);
                                                         }}
                                                         className="p-2 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                                         title="Edit Record"
@@ -185,10 +185,10 @@ const EnhancedTable = ({
                                                     <button
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            const originalIndex = data.indexOf(row);
+                                                            const dataIndex = startIndex + idx;
                                                             setDeleteConfirm({
                                                                 isOpen: true,
-                                                                index: originalIndex,
+                                                                index: dataIndex,
                                                                 record: row
                                                             });
                                                         }}

@@ -100,26 +100,88 @@ export const useDashboardData = () => {
 
     // Remove a single record from a specific sheet in the latest active dataset
     const deleteRecord = (sheetKey, recordIndex) => {
-        setDatasets((prev) => {
-            const activeDatasets = prev.filter(d => d.isActive);
-            if (activeDatasets.length === 0) return prev;
+        try {
+            setDatasets((prev) => {
+                const activeDatasets = prev.filter(d => d.isActive);
+                if (activeDatasets.length === 0) {
+                    console.warn('No active datasets found');
+                    return prev;
+                }
 
-            const targetId = activeDatasets[activeDatasets.length - 1].id;
+                const targetId = activeDatasets[activeDatasets.length - 1].id;
 
-            return prev.map(dataset => {
-                if (dataset.id !== targetId) return dataset;
+                return prev.map(dataset => {
+                    if (dataset.id !== targetId) return dataset;
 
-                const updatedDataset = JSON.parse(JSON.stringify(dataset));
+                    const updatedDataset = JSON.parse(JSON.stringify(dataset));
 
-                if (!updatedDataset.data.sheets[sheetKey]) return dataset;
+                    if (!updatedDataset.data.sheets[sheetKey]) {
+                        console.warn(`Sheet ${sheetKey} not found`);
+                        return dataset;
+                    }
 
-                const sheet = updatedDataset.data.sheets[sheetKey];
-                sheet.data = sheet.data.filter((r, i) => i !== recordIndex);
-                sheet.total_records = sheet.data.length;
+                    const sheet = updatedDataset.data.sheets[sheetKey];
+                    if (!sheet.data) {
+                        console.warn('Sheet data is empty');
+                        return dataset;
+                    }
 
-                return updatedDataset;
+                    console.log('Before delete - sheet.data.length:', sheet.data.length, 'recordIndex:', recordIndex);
+                    
+                    if (recordIndex < 0 || recordIndex >= sheet.data.length) {
+                        console.warn(`Invalid record index: ${recordIndex}, data length: ${sheet.data.length}`);
+                        return dataset;
+                    }
+
+                    // Delete the record at the specified index (works with nulls)
+                    sheet.data = sheet.data.filter((r, i) => i !== recordIndex);
+                    sheet.total_records = sheet.data.length;
+                    console.log('After delete - sheet.data.length:', sheet.data.length);
+
+                    return updatedDataset;
+                });
             });
-        });
+        } catch (error) {
+            console.error('Error in deleteRecord:', error);
+        }
+    };
+
+    // Update a single record in a specific sheet in the latest active dataset
+    const updateRecord = (sheetKey, recordIndex, updatedRecord) => {
+        try {
+            setDatasets((prev) => {
+                const activeDatasets = prev.filter(d => d.isActive);
+                if (activeDatasets.length === 0) {
+                    console.warn('No active datasets found');
+                    return prev;
+                }
+
+                const targetId = activeDatasets[activeDatasets.length - 1].id;
+
+                return prev.map(dataset => {
+                    if (dataset.id !== targetId) return dataset;
+
+                    const updatedDataset = JSON.parse(JSON.stringify(dataset));
+
+                    if (!updatedDataset.data.sheets[sheetKey]) {
+                        console.warn(`Sheet ${sheetKey} not found`);
+                        return dataset;
+                    }
+
+                    const sheet = updatedDataset.data.sheets[sheetKey];
+                    if (!sheet.data || recordIndex < 0 || recordIndex >= sheet.data.length) {
+                        console.warn(`Invalid record index: ${recordIndex}`);
+                        return dataset;
+                    }
+
+                    sheet.data[recordIndex] = { ...updatedRecord };
+
+                    return updatedDataset;
+                });
+            });
+        } catch (error) {
+            console.error('Error in updateRecord:', error);
+        }
     };
 
     // Update entire sheet data in the latest active dataset
@@ -197,6 +259,7 @@ export const useDashboardData = () => {
         Object.values(aggregatedData.sheets).forEach(sheet => {
             if (!sheet.data) return;
             sheet.data.forEach(item => {
+                if (!item) return;
                 if (item.region) filters.region.add(item.region);
                 if (item.industry) filters.industry.add(item.industry);
                 if (item.sales_type) filters.sales_type.add(item.sales_type);
@@ -225,6 +288,7 @@ export const useDashboardData = () => {
         availableFilters,
         addRecord,
         deleteRecord,
+        updateRecord,
         updateSheetData,
         isLoading
     };

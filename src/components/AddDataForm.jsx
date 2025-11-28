@@ -77,48 +77,93 @@ const formFields = {
     ],
     partner_on_board: [
         { name: 'date', label: 'Date', type: 'date', required: true },
-        { name: 'partner_name', label: 'Partner Name', type: 'text', required: true },
-        { name: 'partner_type', label: 'Partner Type', type: 'text', required: true },
-        { name: 'contact_person', label: 'Contact Person', type: 'text', required: true },
+        { name: 'sales_person', label: 'Sales Person', type: 'text', required: true },
+        { name: 'client_name', label: 'Client Name/Account Name', type: 'text', required: true },
+        { name: 'products', label: 'Products', type: 'text', required: true },
+        { name: 'remark', label: 'Remark', type: 'textarea', required: false },
+        { name: 'contact_person_name', label: 'Contact Person Name', type: 'text', required: false },
         { name: 'contact_no', label: 'Contact No', type: 'tel', required: false },
-        { name: 'region', label: 'Region', type: 'text', required: false },
+        { name: 'email_id', label: 'Email ID', type: 'email', required: false },
     ],
     dc_visit: [
         { name: 'date', label: 'Date', type: 'date', required: true },
         { name: 'sales_person', label: 'Sales Person', type: 'text', required: true },
-        { name: 'account_name', label: 'Account Name', type: 'text', required: true },
-        { name: 'product_pitched', label: 'Product Pitched', type: 'text', required: true },
+        { name: 'account_client_name', label: 'Account/Client Name', type: 'text', required: true },
+        { name: 'product_pitched_in', label: 'Product Pitched in', type: 'text', required: true },
         { name: 'sector', label: 'Sector', type: 'text', required: true },
         { name: 'region', label: 'Region', type: 'text', required: true },
         { name: 'contact_person', label: 'Contact Person', type: 'text', required: false },
-        { name: 'mobile', label: 'Mobile', type: 'tel', required: false },
+        { name: 'email_id', label: 'Email ID', type: 'email', required: false },
+        { name: 'mobile_number', label: 'Mobile Number', type: 'tel', required: false },
     ],
     client_direct_visit: [
         { name: 'date', label: 'Date', type: 'date', required: true },
         { name: 'sales_person', label: 'Sales Person', type: 'text', required: true },
         { name: 'client_name', label: 'Client Name', type: 'text', required: true },
-        { name: 'products_pitched', label: 'Products Pitched', type: 'text', required: true },
+        { name: 'products_services_pitched', label: 'Products/Services Pitched', type: 'text', required: true },
         { name: 'industry', label: 'Industry', type: 'text', required: true },
         { name: 'region', label: 'Region', type: 'text', required: true },
     ],
     events_attend: [
-        { name: 'date', label: 'Date', type: 'date', required: true },
+        { name: 'sales_person', label: 'Sales Person', type: 'text', required: true },
         { name: 'event_name', label: 'Event Name', type: 'text', required: true },
-        { name: 'location', label: 'Location', type: 'text', required: true },
-        { name: 'attendees', label: 'Attendees', type: 'number', required: false },
-        { name: 'leads_generated', label: 'Leads Generated', type: 'number', required: false },
+        { name: 'organised_by', label: 'Organised by', type: 'text', required: false },
+        { name: 'topic', label: 'Topic', type: 'text', required: false },
+        { name: 'venue', label: 'Venue', type: 'text', required: false },
+        { name: 'date', label: 'Date', type: 'date', required: true },
+        { name: 'to', label: 'To', type: 'date', required: false },
+        { name: 'total_client_visited', label: 'Total Client Visited', type: 'number', required: false },
+        { name: 'total_delegates_attended', label: 'Total Delegates Attended', type: 'number', required: false },
     ],
     daily_report: [
         { name: 'date', label: 'Date', type: 'date', required: true },
-        { name: 'sales_person', label: 'Sales Person', type: 'text', required: true },
-        { name: 'activities', label: 'Activities', type: 'textarea', required: true },
-        { name: 'notes', label: 'Notes', type: 'textarea', required: false },
+        { name: 'employee_name', label: 'Employee Name', type: 'text', required: true },
+        { name: 'leads_received_from', label: 'Leads Received From', type: 'text', required: false },
+        { name: 'nature', label: 'Nature', type: 'text', required: false },
+        { name: 'new_existing_lead', label: 'New/Existing Lead', type: 'select', options: ['New', 'Existing'], required: false },
+        { name: 'tender_opportunity_details', label: 'Tender/Opportunity Details', type: 'textarea', required: false },
+        { name: 'bank_company_name', label: 'Bank/Company Name', type: 'text', required: false },
+        { name: 'solutions_products', label: 'Solutions/Products', type: 'text', required: false },
+        { name: 'person_name', label: 'Person Name', type: 'text', required: false },
+        { name: 'designation', label: 'Designation', type: 'text', required: false },
+        { name: 'contact_no', label: 'Contact No', type: 'tel', required: false },
+        { name: 'email_id', label: 'Email Id', type: 'email', required: false },
+        { name: 'address', label: 'Address', type: 'textarea', required: false },
+        { name: 'state', label: 'State', type: 'text', required: false },
+        { name: 'product_interested_in', label: 'Product Interested In', type: 'text', required: false },
+        { name: 'next_action', label: 'Next Action', type: 'text', required: false },
+        { name: 'next_follow_up_date', label: 'Next Follow up Date', type: 'date', required: false },
+    ],
+    tender: [
+        { name: 'date', label: 'Date', type: 'date', required: true },
+        { name: 'pot_id', label: 'POT Id', type: 'text', required: true },
+        { name: 'who_working', label: 'Who Working', type: 'text', required: true },
+        { name: 'url', label: 'URL', type: 'url', required: false },
+        { name: 'customer_name', label: 'Customer Name', type: 'text', required: true },
+        { name: 'tender_name', label: 'Tender Name', type: 'text', required: true },
+        { name: 'published_date', label: 'Published Date', type: 'date', required: false },
+        { name: 'last_date_purchase_rfp', label: 'Last Date Purchase RFP', type: 'date', required: false },
+        { name: 'last_date_submit_pre_bid', label: 'Last Date Submit Pre Bid Queries', type: 'date', required: false },
+        { name: 'pre_bid_date', label: 'Pre-Bid Date', type: 'date', required: false },
+        { name: 'submission_date', label: 'Submission Date', type: 'date', required: false },
+        { name: 'technical_tender_opening', label: 'Technical Tender Opening Date', type: 'date', required: false },
+        { name: 'commercial_tender_opening', label: 'Commercial Tender Opening Date', type: 'date', required: false },
+        { name: 'tender_fee', label: 'Tender Fee', type: 'number', required: false },
+        { name: 'emd', label: 'EMD', type: 'number', required: false },
+        { name: 'bank_guarantee_percentage', label: 'Bank Guarantee Percentage', type: 'number', required: false },
+        { name: 'contact_person', label: 'Contact Person', type: 'text', required: false },
+        { name: 'contact_no', label: 'Contact No.', type: 'tel', required: false },
+        { name: 'email_id', label: 'Email ID', type: 'email', required: false },
+        { name: 'submission_address', label: 'Submission Address', type: 'textarea', required: false },
+        { name: 'account_manager', label: 'Account Manager', type: 'text', required: false },
+        { name: 'submitted', label: 'Submitted (Yes/No)', type: 'select', options: ['Yes', 'No'], required: false },
+        { name: 'not_submitted_remark', label: 'if Not Submitted Remark', type: 'textarea', required: false },
     ],
 };
 
-const AddDataForm = ({ sheetType, onSubmit, onCancel }) => {
+const AddDataForm = ({ sheetType, onSubmit, onCancel, initialData = null, isEdit = false }) => {
     const fields = formFields[sheetType] || [];
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState(initialData || {});
     const [errors, setErrors] = useState({});
 
     const handleChange = (fieldName, value) => {
@@ -143,12 +188,15 @@ const AddDataForm = ({ sheetType, onSubmit, onCancel }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
-            // Add sr_no automatically
-            const newRecord = {
-                sr_no: Date.now(), // Use timestamp as unique ID
-                ...formData,
-            };
-            onSubmit(newRecord);
+            if (isEdit) {
+                onSubmit(formData);
+            } else {
+                const newRecord = {
+                    sr_no: Date.now(),
+                    ...formData,
+                };
+                onSubmit(newRecord);
+            }
             setFormData({});
         }
     };
@@ -165,6 +213,7 @@ const AddDataForm = ({ sheetType, onSubmit, onCancel }) => {
             client_direct_visit: 'Client Direct Visit',
             events_attend: 'Events Attend',
             daily_report: 'Daily Report',
+            tender: 'Tender',
         };
         return titles[sheetType] || 'Add Data';
     };
@@ -179,7 +228,7 @@ const AddDataForm = ({ sheetType, onSubmit, onCancel }) => {
                             <Plus className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                         </div>
                         <div className="min-w-0 flex-1">
-                            <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 truncate">Add New Record</h2>
+                            <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 truncate">{isEdit ? 'Edit Record' : 'Add New Record'}</h2>
                             <p className="text-xs sm:text-sm text-gray-600 truncate">{getSheetTitle()} • {fields.length} fields</p>
                         </div>
                     </div>
@@ -255,7 +304,7 @@ const AddDataForm = ({ sheetType, onSubmit, onCancel }) => {
                                 className="w-full sm:w-auto px-4 sm:px-6 py-3 sm:py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium flex items-center justify-center gap-2 text-sm sm:text-base touch-manipulation"
                             >
                                 <Save className="w-4 h-4 sm:w-5 sm:h-5" />
-                                Save Record
+                                {isEdit ? 'Update Record' : 'Save Record'}
                             </button>
                         </div>
                     </form>

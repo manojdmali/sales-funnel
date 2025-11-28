@@ -7,26 +7,112 @@ import ReportPage from './pages/ReportPage';
 import AdvancedDashboard from './pages/AdvancedDashboard';
 import AdvancedDashboardV2 from './pages/AdvancedDashboardV2';
 import AIChatbot from './components/AIChatbot';
-import { LayoutDashboard, FileText, CreditCard, Filter, Users, Building2, MapPin, Calendar, Activity, FileBarChart, BarChart3, Settings } from 'lucide-react';
+import { LayoutDashboard, FileText, CreditCard, Filter, Users, Building2, MapPin, Calendar, Activity, FileBarChart, BarChart3, Settings, ChevronDown, Menu, X as CloseIcon, ChevronRight } from 'lucide-react';
 
-const NavItem = ({ to, icon: Icon, label }) => {
+const Sidebar = () => {
   const location = useLocation();
-  const isActive = location.pathname === to;
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [expandedMenu, setExpandedMenu] = React.useState('');
+
+  const menuItems = [
+    { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
+    {
+      label: 'Analytics', icon: BarChart3, children: [
+        { to: '/advanced-analytics', label: 'Analytics V1', icon: BarChart3 },
+        { to: '/advanced-analytics-v2', label: 'Analytics V2', icon: Settings }
+      ]
+    },
+    {
+      label: 'Data', icon: FileText, children: [
+        { to: '/order-booked', label: 'Orders', icon: FileText },
+        { to: '/payment-collection', label: 'Payments', icon: CreditCard },
+        { to: '/funnel', label: 'Funnel', icon: Filter },
+        { to: '/proposals', label: 'Proposals', icon: FileBarChart },
+        { to: '/demos', label: 'Demos', icon: Activity },
+        { to: '/partners', label: 'Partners', icon: Users },
+        { to: '/dc-visits', label: 'DC Visits', icon: Building2 },
+        { to: '/client-visits', label: 'Client Visits', icon: MapPin },
+        { to: '/events', label: 'Events', icon: Calendar },
+        { to: '/daily-report', label: 'Daily Report', icon: FileText }
+      ]
+    }
+  ];
+
+  const toggleMenu = (label) => {
+    setExpandedMenu(expandedMenu === label ? '' : label);
+  };
 
   return (
-    <NavLink
-      to={to}
-      className={`relative flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm whitespace-nowrap transition-all duration-200 ${isActive
-        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30'
-        : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-700'
-        }`}
-    >
-      <Icon className={`w-4 h-4 transition-transform ${isActive ? 'scale-110' : ''}`} />
-      <span>{label}</span>
-      {isActive && (
-        <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-3/4 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-50"></div>
+    <>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed top-4 left-4 z-[10000] p-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+      >
+        {isOpen ? <CloseIcon className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </button>
+
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999]" onClick={() => setIsOpen(false)} />
       )}
-    </NavLink>
+
+      <div className={`fixed top-0 left-0 h-full w-72 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="p-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+          <h2 className="text-xl font-bold">Sales Dashboard</h2>
+          <p className="text-sm text-indigo-100 mt-1">Navigation Menu</p>
+        </div>
+
+        <nav className="p-4 overflow-y-auto h-[calc(100vh-120px)]">
+          {menuItems.map((item, idx) => (
+            <div key={idx} className="mb-2">
+              {item.children ? (
+                <div>
+                  <button
+                    onClick={() => toggleMenu(item.label)}
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:bg-indigo-50 transition-all duration-200 font-medium"
+                  >
+                    <div className="flex items-center gap-3">
+                      <item.icon className="w-5 h-5" />
+                      <span>{item.label}</span>
+                    </div>
+                    <ChevronRight className={`w-4 h-4 transition-transform duration-200 ${expandedMenu === item.label ? 'rotate-90' : ''}`} />
+                  </button>
+                  {expandedMenu === item.label && (
+                    <div className="ml-4 mt-1 space-y-1 animate-fadeIn">
+                      {item.children.map((child, childIdx) => (
+                        <NavLink
+                          key={childIdx}
+                          to={child.to}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all duration-200 ${location.pathname === child.to
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
+                            : 'text-gray-600 hover:bg-gray-50'
+                            }`}
+                        >
+                          <child.icon className="w-4 h-4" />
+                          <span>{child.label}</span>
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <NavLink
+                  to={item.to}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${location.pathname === item.to
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
+                    : 'text-gray-700 hover:bg-indigo-50'
+                    }`}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.label}</span>
+                </NavLink>
+              )}
+            </div>
+          ))}
+        </nav>
+      </div>
+    </>
   );
 };
 
@@ -67,28 +153,10 @@ const Layout = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 no-scrollbar">
-            <NavItem to="/" icon={LayoutDashboard} label="Dashboard" />
-            <NavItem to="/advanced-analytics" icon={BarChart3} label="Analytics" />
-            <NavItem to="/advanced-analytics-v2" icon={Settings} label="Analytics V2" />
-            <div className="w-px h-6 bg-gray-300 mx-2 shrink-0"></div>
-            <NavItem to="/order-booked" icon={FileText} label="Orders" />
-            <NavItem to="/payment-collection" icon={CreditCard} label="Payments" />
-            <NavItem to="/funnel" icon={Filter} label="Funnel" />
-            <NavItem to="/proposals" icon={FileBarChart} label="Proposals" />
-            <NavItem to="/demos" icon={Activity} label="Demos" />
-            <NavItem to="/partners" icon={Users} label="Partners" />
-            <NavItem to="/dc-visits" icon={Building2} label="DC Visits" />
-            <NavItem to="/client-visits" icon={MapPin} label="Client Visits" />
-            <NavItem to="/events" icon={Calendar} label="Events" />
-            <NavItem to="/daily-report" icon={FileText} label="Daily Report" />
-          </div>
-        </div>
-      </nav>
-
-      {children}
+      <Sidebar />
+      <div className="px-4 sm:px-6 lg:px-8 max-w-[1920px] mx-auto">
+        {children}
+      </div>
       <AIChatbot dashboardData={dashboardData} />
     </div>
   );
