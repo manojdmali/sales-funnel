@@ -389,46 +389,42 @@ const SalesFunnelDashboard = () => {
     <>
       <div className="min-h-screen p-4 sm:p-8 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-12 animate-slideIn">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          {/* Compact Header */}
+          <div className="mb-6 animate-slideIn">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-center sm:text-left">
-                <h1 className="text-5xl sm:text-7xl font-black text-gray-900 mb-4 tracking-tight">
+                <h1 className="text-4xl sm:text-5xl font-black text-gray-900 mb-2 tracking-tight">
                   Sales <span className="text-indigo-700">Funnel</span>
                 </h1>
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-gray-700">
-                  <span className="px-4 py-1.5 bg-white/80 backdrop-blur-md rounded-full border border-indigo-200 text-sm font-medium shadow-sm">{d.metadata.report_name}</span>
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-gray-700 text-sm">
+                  <span className="px-3 py-1 bg-white/80 backdrop-blur-md rounded-full border border-indigo-200 font-medium shadow-sm">{d.metadata.report_name}</span>
                   <span className="text-gray-400">•</span>
-                  <span className="text-sm font-medium">Last Updated: {new Date(d.metadata.generated_at).toLocaleDateString()}</span>
+                  <span className="font-medium">Updated: {new Date(d.metadata.generated_at).toLocaleDateString()}</span>
                   {dataSource === 'uploaded' && (
                     <>
                       <span className="text-gray-400">•</span>
-                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-50 border border-green-300 rounded-full text-green-700 text-xs font-bold uppercase tracking-wide shadow-sm">
+                      <div className="inline-flex items-center gap-1 px-2 py-1 bg-green-50 border border-green-300 rounded-full text-green-700 text-xs font-bold">
                         <Upload className="w-3 h-3" />
-                        <span>{d.metadata.filename || 'Uploaded Excel'}</span>
+                        <span>{d.metadata.filename || 'Excel'}</span>
                       </div>
                     </>
                   )}
                 </div>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <button
                   onClick={() => setShowUploadModal(true)}
-                  className="group px-6 py-4 bg-white text-indigo-600 rounded-2xl hover:shadow-xl hover:shadow-indigo-500/20 transform hover:-translate-y-1 transition-all duration-300 font-bold text-lg flex items-center gap-3 border-2 border-indigo-200"
+                  className="group px-4 py-2.5 bg-white text-indigo-600 rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 font-semibold text-sm flex items-center gap-2 border border-indigo-200"
                 >
-                  <div className="p-2 bg-indigo-50 rounded-xl group-hover:bg-indigo-100 transition-colors">
-                    <Upload className="w-5 h-5" />
-                  </div>
-                  Upload Excel
+                  <Upload className="w-4 h-4" />
+                  Upload
                 </button>
                 <button
                   onClick={() => setShowDataManagement(true)}
-                  className="group px-6 py-4 bg-white text-blue-600 rounded-2xl hover:shadow-xl hover:shadow-blue-500/20 transform hover:-translate-y-1 transition-all duration-300 font-bold text-lg flex items-center gap-3 border-2 border-blue-200"
+                  className="group px-4 py-2.5 bg-white text-blue-600 rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 font-semibold text-sm flex items-center gap-2 border border-blue-200"
                 >
-                  <div className="p-2 bg-blue-50 rounded-xl group-hover:bg-blue-100 transition-colors">
-                    <Database className="w-5 h-5" />
-                  </div>
-                  Manage Data ({datasets.length})
+                  <Database className="w-4 h-4" />
+                  Data ({datasets.length})
                 </button>
               </div>
             </div>
@@ -443,78 +439,152 @@ const SalesFunnelDashboard = () => {
             availableFilters={availableFilters}
           />
 
-          {/* KPI Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <KPICard icon={Target} label="Total Proposals" value={filteredProposals.length} gradient="from-blue-500 to-blue-600" />
+          {/* Compact KPI Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <KPICard icon={Target} label="Proposals" value={filteredProposals.length} gradient="from-blue-500 to-blue-600" />
             <KPICard icon={Users} label="Client Visits" value={filteredVisits.length} gradient="from-purple-500 to-purple-600" />
-            <KPICard icon={TrendingUp} label="Demos Conducted" value={filteredDemos.length} gradient="from-pink-500 to-pink-600" />
-            <KPICard icon={IndianRupee} label="Total TCV (Cr.)" value={`Rs ${totalTCV.toFixed(2)}`} gradient="from-amber-500 to-amber-600" />
+            <KPICard icon={TrendingUp} label="Demos" value={filteredDemos.length} gradient="from-pink-500 to-pink-600" />
+            <KPICard icon={IndianRupee} label="TCV (Cr.)" value={`₹${totalTCV.toFixed(2)}`} gradient="from-amber-500 to-amber-600" />
           </div>
 
-          {/* Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <ChartCard title="Sales Funnel Overview">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={funnelData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff30" />
-                  <XAxis dataKey="name" stroke="#ffffff" />
-                  <YAxis stroke="#ffffff" />
-                  <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', border: 'none', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-                  <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                    {funnelData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
+          {/* Enhanced Charts */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+            <ChartCard title="📊 Sales Funnel Overview">
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart data={funnelData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#1d4ed8" stopOpacity={0.6}/>
+                    </linearGradient>
+                    <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#7c3aed" stopOpacity={0.6}/>
+                    </linearGradient>
+                    <linearGradient id="pinkGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#ec4899" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#db2777" stopOpacity={0.6}/>
+                    </linearGradient>
+                    <linearGradient id="amberGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#d97706" stopOpacity={0.6}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" opacity={0.3} />
+                  <XAxis dataKey="name" stroke="#6b7280" fontSize={12} />
+                  <YAxis stroke="#6b7280" fontSize={12} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.98)', 
+                      border: 'none', 
+                      borderRadius: '12px', 
+                      boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+                      fontSize: '14px',
+                      fontWeight: '600'
+                    }} 
+                  />
+                  <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                    {funnelData.map((entry, index) => {
+                      const gradients = ['url(#blueGradient)', 'url(#purpleGradient)', 'url(#pinkGradient)', 'url(#amberGradient)'];
+                      return <Cell key={`cell-${index}`} fill={gradients[index]} />;
+                    })}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </ChartCard>
 
-            <ChartCard title="Regional Performance">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={regionData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff30" />
-                  <XAxis dataKey="region" stroke="#ffffff" />
-                  <YAxis stroke="#ffffff" />
-                  <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', border: 'none', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-                  <Legend />
-                  <Bar dataKey="visits" fill="#8b5cf6" name="Client Visits" radius={[8, 8, 0, 0]} />
-                  <Bar dataKey="proposals" fill="#f59e0b" name="Proposals" radius={[8, 8, 0, 0]} />
+            <ChartCard title="🌍 Regional Performance">
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart data={regionData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="visitsGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#7c3aed" stopOpacity={0.6}/>
+                    </linearGradient>
+                    <linearGradient id="proposalsGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#d97706" stopOpacity={0.6}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" opacity={0.3} />
+                  <XAxis dataKey="region" stroke="#6b7280" fontSize={12} />
+                  <YAxis stroke="#6b7280" fontSize={12} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.98)', 
+                      border: 'none', 
+                      borderRadius: '12px', 
+                      boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+                      fontSize: '14px',
+                      fontWeight: '600'
+                    }} 
+                  />
+                  <Legend wrapperStyle={{ fontSize: '12px', fontWeight: '600' }} />
+                  <Bar dataKey="visits" fill="url(#visitsGradient)" name="Client Visits" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="proposals" fill="url(#proposalsGradient)" name="Proposals" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartCard>
 
-            <ChartCard title="Industry Distribution">
-              <ResponsiveContainer width="100%" height={300}>
+            <ChartCard title="🏢 Industry Distribution">
+              <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
-                  <Pie data={industryData} cx="50%" cy="50%" labelLine={false} label={({ name, value }) => `${name}: ${value}`} outerRadius={100} fill="#8884d8" dataKey="value">
+                  <defs>
+                    {['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'].map((color, index) => (
+                      <linearGradient key={index} id={`pieGradient${index}`} x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor={color} stopOpacity={0.8}/>
+                        <stop offset="100%" stopColor={color} stopOpacity={0.6}/>
+                      </linearGradient>
+                    ))}
+                  </defs>
+                  <Pie 
+                    data={industryData} 
+                    cx="50%" 
+                    cy="50%" 
+                    labelLine={false} 
+                    label={({ name, value, percent }) => `${name}: ${value} (${(percent * 100).toFixed(0)}%)`}
+                    outerRadius={90}
+                    innerRadius={30}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
                     {industryData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'][index % 5]} />
+                      <Cell key={`cell-${index}`} fill={`url(#pieGradient${index % 5})`} stroke="#fff" strokeWidth={2} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', border: 'none', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.98)', 
+                      border: 'none', 
+                      borderRadius: '12px', 
+                      boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+                      fontSize: '14px',
+                      fontWeight: '600'
+                    }} 
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </ChartCard>
 
-            <ChartCard title="Deal Health Metrics">
-              <div className="space-y-6">
+            <ChartCard title="💊 Deal Health Metrics">
+              <div className="space-y-4">
                 <div>
                   <div className="flex justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Average Probability</span>
+                    <span className="text-sm font-semibold text-gray-700">Average Probability</span>
                     <span className="text-sm font-bold text-purple-600">{avgProbability.toFixed(1)}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                    <div className="h-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-500" style={{ width: `${avgProbability}%` }}></div>
+                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                    <div className="h-3 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 transition-all duration-1000 shadow-sm" style={{ width: `${avgProbability}%` }}></div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t">
-                  <div className="text-center p-3 bg-purple-50 rounded-lg">
-                    <p className="text-sm text-gray-600">Total TCV</p>
-                    <p className="text-xl font-bold text-purple-600">Rs {totalTCV.toFixed(2)} Cr</p>
+                <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-100">
+                  <div className="text-center p-3 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200">
+                    <p className="text-xs text-purple-600 font-semibold">Total TCV</p>
+                    <p className="text-lg font-black text-purple-700">₹{totalTCV.toFixed(2)} Cr</p>
                   </div>
-                  <div className="text-center p-3 bg-blue-50 rounded-lg">
-                    <p className="text-sm text-gray-600">Active Deals</p>
-                    <p className="text-xl font-bold text-blue-600">{filteredProposals.length}</p>
+                  <div className="text-center p-3 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200">
+                    <p className="text-xs text-blue-600 font-semibold">Active Deals</p>
+                    <p className="text-lg font-black text-blue-700">{filteredProposals.length}</p>
                   </div>
                 </div>
               </div>
