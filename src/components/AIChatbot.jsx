@@ -11,6 +11,19 @@ const AIChatbot = ({ dashboardData }) => {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
 
+  const predefinedQuestions = [
+    '📊 Revenue summary',
+    '📋 How many proposals?',
+    '👥 Top clients',
+    '🎯 Demo status',
+    '📍 Regional performance',
+    '🏢 Industry breakdown',
+    '👨💼 Sales team performance',
+    '📦 Product analysis',
+    '💰 Payment status',
+    '🔄 Pipeline overview'
+  ];
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -313,6 +326,25 @@ const AIChatbot = ({ dashboardData }) => {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Quick Questions */}
+          <div className="px-4 py-2 border-t border-gray-100 bg-gray-50">
+            <div className="flex flex-wrap gap-2 max-h-20 overflow-y-auto">
+              {predefinedQuestions.map((question, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setInput(question.replace(/^[📊📋👥🎯📍🏢👨💼📦💰🔄]\s/, ''));
+                    setTimeout(() => handleSend(), 100);
+                  }}
+                  disabled={isTyping}
+                  className="px-3 py-1 text-xs bg-white hover:bg-blue-50 border border-gray-200 rounded-full transition-all hover:border-blue-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Input */}
           <div className="p-4 border-t border-gray-200 bg-white rounded-b-lg">
             <div className="flex gap-3">
@@ -332,9 +364,6 @@ const AIChatbot = ({ dashboardData }) => {
               >
                 <Send className="w-5 h-5" />
               </button>
-            </div>
-            <div className="mt-2 text-xs text-gray-500 text-center">
-              💡 Try: "revenue summary", "top clients", "pipeline status"
             </div>
           </div>
         </div>
