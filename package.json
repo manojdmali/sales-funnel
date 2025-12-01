@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Sandesh Team Sales Funnel Analytics Dashboard",
   "main": "index.js",
+  "homepage": "https://dev.famrut.com/sales-funnel",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

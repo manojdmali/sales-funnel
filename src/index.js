@@ -163,7 +163,7 @@ const Layout = ({ children }) => {
 };
 
 const App = () => (
-  <BrowserRouter>
+  <BrowserRouter basename="/sales-funnel">
     <Layout>
       <Routes>
         <Route path="/" element={<SalesDashboard />} />
